@@ -1,3 +1,3 @@
-Class and Object in Kotlin
+Object and Class in Kotlin
 
-Backup for object and classes code using Kotlin programming language
+Backup for objects and classes code using Kotlin programming language
