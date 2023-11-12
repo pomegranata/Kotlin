@@ -7,7 +7,11 @@ open class SmartDevice (val name: String, val category: String) {
         protected set
 
     open fun isDeviceOn() : Boolean {
-        return this.deviceStatus == "online" || this.deviceStatus == "on"
+        if (deviceStatus == "online" || deviceStatus == "on") {
+            return (true)
+        } else {
+            return (false)
+        }
     }
 
     open val deviceType = "unknown"
@@ -21,9 +25,9 @@ open class SmartDevice (val name: String, val category: String) {
     }
 
     fun printDeviceInfo() {
-        println("Device name: $name" + 
-                "Category: $category" +
-                "Type: $deviceType")
+        println("Device name: $name")
+        println("Category: $category")
+        println("Type: $deviceType")
     }
 } 
 
@@ -59,7 +63,7 @@ class SmartTvDevice(deviceName: String, deviceCategory: String) :
         override fun turnOn() {
             super.turnOn()
             println("$name is turned on. Speaker volume is set to $speakerVolume and channel number is " +
-            "set to $channelNumber")
+                "set to $channelNumber")
         }
         
         override fun turnOff() {
@@ -100,73 +104,69 @@ class SmartLightDevice(deviceName: String, deviceCategory: String) :
     }
 
 class SmartHome (
+    val smartDevice: SmartDevice,
     val smartTvDevice: SmartTvDevice,
-    val smartLightDevice: SmartLightDevice
+    val smartLightDevice: SmartLightDevice,
     ) {
     
-
-    if (this.isDeviceOn()) {
-        var deviceTurnOnCount = 0
-            private set
-        
-        fun turnOnTv() {
-            deviceTurnOnCount++
-            smartTvDevice.turnOn()
-        }
-
-        fun turnOffTv() {
-            deviceTurnOnCount--
-            smartTvDevice.turnOff()
-        }
-
-        fun increaseTvVolume() {
-            smartTvDevice.increaseSpeakerVolume()
-        }
-
-        fun decreaseTvVolume() {
-            smartTvDevice.decreaseSpeakerVolume()
-        }
-
-        fun changeTvChannelToNext() {
-            smartTvDevice.nextChannel()
-        }
-
-        fun changeTvChannelToPrevious() {
-            smartTvDevice.previousChannel()
-        }
-
-        fun turnOnLight() {
-            deviceTurnOnCount++
-            smartLightDevice.turnOn()
-        }
-
-        fun turnOffLight() {
-            deviceTurnOnCount--
-            smartLightDevice.turnOff()
-        }
-
-        fun increaseLightBrightness() {
-            smartLightDevice.increaseBrightness()
-        }
-
-        fun decreseLightBrightness() {
-            smartLightDevice.decreaseBrightness()
-        }
+    var deviceTurnOnCount = 0
+        private set
     
-        fun printSmartTvInfo() {
-            printDeviceInfo()
-        }
+    fun turnOnTv() {
+        deviceTurnOnCount++
+        smartTvDevice.turnOn()
+    }
 
-        fun printLightInfo() {
-            printDeviceInfo()
-        }
+    fun turnOffTv() {
+        deviceTurnOnCount--
+        smartTvDevice.turnOff()
+    }
 
-        fun turnOffAllDevices() {
-            turnOffTv()
-            turnOffLight()
-        }
-    } else {
-        println("The device is off")
+    fun increaseTvVolume() {
+        smartTvDevice.increaseSpeakerVolume()
+    }
+
+    fun decreaseTvVolume() {
+        smartTvDevice.decreaseSpeakerVolume()
+    }
+
+    fun changeTvChannelToNext() {
+        smartTvDevice.nextChannel()
+    }
+
+    fun changeTvChannelToPrevious() {
+        smartTvDevice.previousChannel()
+    }
+
+    fun turnOnLight() {
+        deviceTurnOnCount++
+        smartLightDevice.turnOn()
+    }
+
+    fun turnOffLight() {
+        deviceTurnOnCount--
+        smartLightDevice.turnOff()
+    }
+
+    fun increaseLightBrightness() {
+        smartLightDevice.increaseBrightness()
+    }
+
+    fun decreseLightBrightness() {
+        smartLightDevice.decreaseBrightness()
+    }
+
+    fun printSmartTvInfo() {
+        smartDevice.printDeviceInfo()
+    }
+
+    fun printLightInfo() {
+        smartDevice.printDeviceInfo()
+    }
+
+    fun turnOffAllDevices() {
+        turnOffTv()
+        turnOffLight()
     }
 }
 
@@ -191,19 +191,29 @@ class RangeRegulator(
 
 fun main() {
     var smartDevice: SmartDevice = SmartTvDevice("Android TV", "Entertainment")
-    smartDevice.turnOn()    
+    smartDevice.turnOn()
 
+    if (smartDevice.isDeviceOn()) {
+        smartDevice = SmartTvDevice("Android TV", "Entertainment")
+        smartDevice.printDeviceInfo()
+        smartDevice.increaseSpeakerVolume()
+        smartDevice.decreaseSpeakerVolume()
+        smartDevice.nextChannel()
+        smartDevice.previousChannel()
+        smartDevice.turnOff()
+    } else {
+        println("The device is off")
+    }
+        
     smartDevice = SmartLightDevice("Google Light", "Utility")
     smartDevice.turnOn()
+    
+    if (smartDevice.isDeviceOn()) {
     smartDevice.increaseBrightness()
     smartDevice.decreaseBrightness()
     smartDevice.turnOff()
+    } else {
+        println("The device is off")
+    }
 
-    smartDevice = SmartTvDevice("Android TV", "Entertainment")
-    smartDevice.printDeviceInfo()
-    smartDevice.increaseSpeakerVolume()
-    smartDevice.decreaseSpeakerVolume()
-    smartDevice.nextChannel()
-    smartDevice.previousChannel()
-    smartDevice.turnOff()
 }
