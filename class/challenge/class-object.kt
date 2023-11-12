@@ -106,7 +106,7 @@ class SmartLightDevice(deviceName: String, deviceCategory: String) :
 class SmartHome (
     val smartDevice: SmartDevice,
     val smartTvDevice: SmartTvDevice,
-    val smartLightDevice: SmartLightDevice,
+    val smartLightDevice: SmartLightDevice
     ) {
     
     var deviceTurnOnCount = 0
